@@ -1577,8 +1577,8 @@
             const timelineTop = memoryTimeline.offsetTop;
             const timelineHeight = memoryTimeline.offsetHeight;
 
-            // Розраховуємо тривалість скролу (приблизно 3-4 секунди на картку)
-            const scrollDuration = memoryCards.length * 3500; // мілісекунди
+            // Розраховуємо тривалість скролу (приблизно 6 секунд на картку)
+            const scrollDuration = memoryCards.length * 6000; // мілісекунди
             const startPosition = mediaSection.scrollTop;
             const targetPosition = timelineTop + timelineHeight - mediaSection.clientHeight / 2;
             const distance = targetPosition - startPosition;
@@ -1743,8 +1743,15 @@
                 envelopeScreen.classList.add('hidden');
                 mediaSection.classList.add('visible');
 
-                // Прокручуємо медіа секцію на самий верх
-                mediaSection.scrollTop = 0;
+                // Прокручуємо медіа секцію на самий верх після рендерингу
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        mediaSection.scrollTop = 0;
+                        window.scrollTo(0, 0);
+                        document.documentElement.scrollTop = 0;
+                        document.body.scrollTop = 0;
+                    });
+                });
 
                 // Запускаємо слайдшоу фотографій
                 startPhotoSlideshow();
