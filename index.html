@@ -559,6 +559,193 @@
             border-radius: 21px;
         }
 
+        /* Memory Timeline */
+        .memory-timeline {
+            width: 100%;
+            max-width: 1200px;
+            margin: 80px auto 60px;
+            padding: 40px 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1.5s ease, transform 1.5s ease;
+        }
+
+        .memory-timeline.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 50%, #ffa6c1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 80px;
+            filter: drop-shadow(0 2px 15px rgba(255, 107, 157, 0.3));
+        }
+
+        .timeline-container {
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #ff6b9d 0%, #ff8fab 50%, #ffa6c1 100%);
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+        }
+
+        .memory-card {
+            position: relative;
+            margin-bottom: 100px;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .memory-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .memory-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .memory-card.left {
+            justify-content: flex-end;
+            padding-right: calc(50% + 50px);
+        }
+
+        .memory-card.right {
+            justify-content: flex-start;
+            padding-left: calc(50% + 50px);
+        }
+
+        .memory-content {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 240, 245, 0.98) 100%);
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.25);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .memory-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 25px;
+            padding: 3px;
+            background: linear-gradient(135deg, #ff6b9d, #ffa6c1, #ffb6c1);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            z-index: -1;
+        }
+
+        .memory-content:hover {
+            transform: scale(1.03);
+            box-shadow: 0 20px 50px rgba(255, 107, 157, 0.35);
+        }
+
+        .memory-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(255, 107, 157, 0.3);
+        }
+
+        .calendar-icon {
+            font-size: 1rem;
+        }
+
+        .memory-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #5a3a4a;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .memory-image {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.2);
+        }
+
+        .memory-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .memory-content:hover .memory-image img {
+            transform: scale(1.1);
+        }
+
+        .memory-text {
+            font-size: 1.2rem;
+            color: #5a3a4a;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 0 0 8px rgba(255, 240, 245, 1),
+                        0 0 30px rgba(255, 107, 157, 0.4);
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-dot::before {
+            content: '💕';
+        }
+
+        .memory-card:hover .timeline-dot {
+            transform: translate(-50%, -50%) scale(1.15);
+        }
+
         .continue-hint {
             margin-top: 30px;
             font-size: 1.3rem;
@@ -566,15 +753,6 @@
             font-style: italic;
             animation: fadeInOut 2s ease-in-out infinite 3s;
             text-align: center;
-        }
-
-        #testEffects:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(255, 107, 157, 0.6);
-        }
-
-        #testEffects:active {
-            transform: translateY(0);
         }
 
         /* Емодзі дощ для відео */
@@ -960,6 +1138,65 @@
                 font-size: 1.1rem;
                 margin-top: 10px;
             }
+
+            /* Memory Timeline Mobile */
+            .memory-timeline {
+                margin: 40px auto 40px;
+                padding: 20px 10px;
+            }
+
+            .timeline-title {
+                font-size: 2rem;
+                margin-bottom: 50px;
+            }
+
+            .timeline-line {
+                left: 30px;
+            }
+
+            .timeline-container {
+                padding: 20px 0;
+            }
+
+            .memory-card {
+                margin-bottom: 60px;
+                padding: 0 !important;
+                padding-left: 80px !important;
+                justify-content: flex-start !important;
+            }
+
+            .memory-content {
+                max-width: 100%;
+                padding: 20px;
+            }
+
+            .memory-title {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+
+            .memory-label {
+                font-size: 0.85rem;
+                padding: 6px 12px;
+            }
+
+            .memory-text {
+                font-size: 1.05rem;
+                line-height: 1.6;
+            }
+
+            .timeline-dot {
+                left: 30px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.4rem;
+                box-shadow: 0 0 0 6px rgba(255, 240, 245, 1),
+                            0 0 20px rgba(255, 107, 157, 0.3);
+            }
+
+            .memory-image {
+                aspect-ratio: 4 / 3;
+            }
         }
     </style>
 </head>
@@ -1010,10 +1247,81 @@
                     Ваш браузер не підтримує відео.
                 </video>
             </div>
+
+            <!-- Memory Timeline -->
+            <div class="memory-timeline" id="memoryTimeline">
+                <h2 class="timeline-title">Стежка спогадів</h2>
+
+                <div class="timeline-container">
+                    <div class="timeline-line"></div>
+
+                    <!-- Memory Card 1 -->
+                    <div class="memory-card left">
+                        <div class="memory-content">
+                            <div class="memory-label">
+                                <span class="calendar-icon">📅</span>
+                                <span class="label-text">Перша зустріч</span>
+                            </div>
+                            <h3 class="memory-title">Той самий день</h3>
+                            <div class="memory-image">
+                                <img src="first_met.png" alt="Перша зустріч">
+                            </div>
+                            <p class="memory-text">День, коли наші шляхи нарешті перетнулися і все змінилося назавжди.</p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <!-- Memory Card 2 -->
+                    <div class="memory-card right">
+                        <div class="memory-content">
+                            <div class="memory-label">
+                                <span class="calendar-icon">📅</span>
+                                <span class="label-text">Перша прогулянка</span>
+                            </div>
+                            <h3 class="memory-title">Кава та посмішки</h3>
+                            <div class="memory-image">
+                                <img src="first_walk.png" alt="Перша прогулянка">
+                            </div>
+                            <p class="memory-text">Години розмов пролітали миттєво, а твоя усмішка освітлювала весь світ.</p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <!-- Memory Card 3 -->
+                    <div class="memory-card left">
+                        <div class="memory-content">
+                            <div class="memory-label">
+                                <span class="calendar-icon">📅</span>
+                                <span class="label-text">Перша подорож</span>
+                            </div>
+                            <h3 class="memory-title">Час пригод</h3>
+                            <div class="memory-image">
+                                <img src="first_trip.png" alt="Перша подорож">
+                            </div>
+                            <p class="memory-text">Досліджувати нові місця з тобою - моє найулюбленіше хобі.</p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <!-- Memory Card 4 -->
+                    <div class="memory-card right">
+                        <div class="memory-content">
+                            <div class="memory-label">
+                                <span class="calendar-icon">📅</span>
+                                <span class="label-text">Сьогодні</span>
+                            </div>
+                            <h3 class="memory-title">Святкуємо тебе</h3>
+                            <div class="memory-image">
+                                <img src="start_relationship.png" alt="Святкування">
+                            </div>
+                            <p class="memory-text">Ще один рік твого дивовижного світла у цьому світі. І це лише початок!</p>
+                        </div>
+                        <div class="timeline-dot"></div>
+                    </div>
+                </div>
+            </div>
+
             <p class="continue-hint">Прокрутіть вниз, щоб продовжити...</p>
-            <button id="testEffects" style="margin-top: 20px; padding: 15px 30px; background: linear-gradient(135deg, #ff6b9d, #ffa6c1); border: none; border-radius: 15px; color: white; font-size: 1.2rem; cursor: pointer; font-family: 'Cormorant Garamond', serif; box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4); transition: all 0.3s ease;">
-                🎨 Тест дощику з емодзі
-            </button>
         </div>
     </div>
 
@@ -1241,10 +1549,94 @@
             console.log('⏩ Video seeked - effects reset');
         });
 
-        // Тестова кнопка
-        document.getElementById('testEffects').addEventListener('click', () => {
-            console.log('🧪 Manual test triggered');
-            startContinuousRain(['💕', '💖', '✨', '🌟'], 'emojiSparkle', 5);
+        // Memory Timeline Auto-scroll
+        const memoryTimeline = document.getElementById('memoryTimeline');
+        const memoryCards = document.querySelectorAll('.memory-card');
+        let autoScrollInterval = null;
+        let hasAutoScrolled = false;
+
+        // Показуємо timeline коли видео закінчується
+        birthdayVideo.addEventListener('ended', () => {
+            console.log('🎬 Video ended - starting timeline auto-scroll');
+
+            // Показуємо timeline
+            memoryTimeline.classList.add('visible');
+
+            // Починаємо автоскрол через 1 секунду після закінчення відео
+            setTimeout(() => {
+                startTimelineAutoScroll();
+            }, 1000);
+        });
+
+        // Функція автоскролу через таймлайн
+        function startTimelineAutoScroll() {
+            if (hasAutoScrolled) return;
+            hasAutoScrolled = true;
+
+            // Отримуємо позицію timeline відносно media-section
+            const timelineTop = memoryTimeline.offsetTop;
+            const timelineHeight = memoryTimeline.offsetHeight;
+
+            // Розраховуємо тривалість скролу (приблизно 3-4 секунди на картку)
+            const scrollDuration = memoryCards.length * 3500; // мілісекунди
+            const startPosition = mediaSection.scrollTop;
+            const targetPosition = timelineTop + timelineHeight - mediaSection.clientHeight / 2;
+            const distance = targetPosition - startPosition;
+
+            let startTime = null;
+
+            function scrollStep(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const elapsed = timestamp - startTime;
+                const progress = Math.min(elapsed / scrollDuration, 1);
+
+                // Easing function для плавного скролу
+                const easeInOutCubic = progress < 0.5
+                    ? 4 * progress * progress * progress
+                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+                const currentPosition = startPosition + (distance * easeInOutCubic);
+                mediaSection.scrollTop = currentPosition;
+
+                // Анімуємо картки по мірі скролу
+                animateCardsOnScroll();
+
+                if (progress < 1) {
+                    requestAnimationFrame(scrollStep);
+                } else {
+                    console.log('✅ Auto-scroll completed');
+                }
+            }
+
+            requestAnimationFrame(scrollStep);
+        }
+
+        // Анімуємо картки коли вони входять в viewport
+        function animateCardsOnScroll() {
+            const mediaSectionRect = mediaSection.getBoundingClientRect();
+
+            memoryCards.forEach((card) => {
+                const cardRect = card.getBoundingClientRect();
+                const cardTop = cardRect.top - mediaSectionRect.top + mediaSection.scrollTop;
+                const cardBottom = cardTop + cardRect.height;
+
+                // Перевіряємо чи картка у видимій зоні
+                const isVisible = (
+                    cardTop < mediaSection.scrollTop + mediaSection.clientHeight * 0.8 &&
+                    cardBottom > mediaSection.scrollTop + mediaSection.clientHeight * 0.2
+                );
+
+                if (isVisible && !card.classList.contains('animate')) {
+                    card.classList.add('animate');
+                }
+            });
+        }
+
+        // Також анімуємо картки при ручному скролі
+        mediaSection.addEventListener('scroll', () => {
+            if (memoryTimeline.classList.contains('visible')) {
+                animateCardsOnScroll();
+            }
         });
 
         // Створення конфеті з взривним ефектом
@@ -1350,6 +1742,9 @@
             setTimeout(() => {
                 envelopeScreen.classList.add('hidden');
                 mediaSection.classList.add('visible');
+
+                // Прокручуємо медіа секцію на самий верх
+                mediaSection.scrollTop = 0;
 
                 // Запускаємо слайдшоу фотографій
                 startPhotoSlideshow();
