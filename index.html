@@ -70,7 +70,10 @@
             background-clip: padding-box;
             box-shadow: 0 0 60px rgba(255, 107, 157, 0.4);
             position: relative;
-            animation: disclaimerPulse 2s ease-in-out infinite;
+            animation: disclaimerPulse 3s cubic-bezier(0.4, 0.0, 0.6, 1) infinite;
+            will-change: transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
 
         .disclaimer-content::before {
@@ -91,28 +94,29 @@
 
         @keyframes disclaimerPulse {
             0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 0 60px rgba(255, 107, 157, 0.4);
+                transform: scale(1) translateZ(0);
             }
             50% {
-                transform: scale(1.02);
-                box-shadow: 0 0 80px rgba(255, 107, 157, 0.6);
+                transform: scale(1.015) translateZ(0);
             }
         }
 
         .disclaimer-icon {
             font-size: 5rem;
             margin-bottom: 30px;
-            animation: headphoneBounce 1.5s ease-in-out infinite;
+            animation: headphoneBounce 2s cubic-bezier(0.4, 0.0, 0.6, 1) infinite;
             filter: drop-shadow(0 5px 15px rgba(255, 107, 157, 0.3));
+            will-change: transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
 
         @keyframes headphoneBounce {
             0%, 100% {
-                transform: translateY(0) rotate(-5deg);
+                transform: translate3d(0, 0, 0) rotate(-5deg);
             }
             50% {
-                transform: translateY(-15px) rotate(5deg);
+                transform: translate3d(0, -15px, 0) rotate(5deg);
             }
         }
 
@@ -1330,6 +1334,9 @@
         envelopeWrapper.addEventListener('click', () => {
             if (isOpening) return;
             isOpening = true;
+
+            // Прокручуємо сторінку на самий верх
+            window.scrollTo(0, 0);
 
             // Додаємо клас відкриття
             envelopeWrapper.classList.add('opening');
