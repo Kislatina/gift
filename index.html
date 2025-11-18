@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Особливе Привітання</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -38,6 +38,106 @@
             z-index: 0;
         }
 
+        /* Дисклеймер про наушники */
+        .disclaimer-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe6f0 25%, #fff0f5 50%, #ffe6f0 75%, #ffeef8 100%);
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .disclaimer-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .disclaimer-content {
+            text-align: center;
+            max-width: 600px;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 240, 245, 0.98) 100%);
+            border-radius: 35px;
+            border: 4px solid transparent;
+            background-clip: padding-box;
+            box-shadow: 0 0 60px rgba(255, 107, 157, 0.4);
+            position: relative;
+            animation: disclaimerPulse 2s ease-in-out infinite;
+        }
+
+        .disclaimer-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 35px;
+            padding: 4px;
+            background: linear-gradient(135deg, #ff6b9d, #ffa6c1, #ffb6c1);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            z-index: -1;
+        }
+
+        @keyframes disclaimerPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 60px rgba(255, 107, 157, 0.4);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 0 80px rgba(255, 107, 157, 0.6);
+            }
+        }
+
+        .disclaimer-icon {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            animation: headphoneBounce 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 5px 15px rgba(255, 107, 157, 0.3));
+        }
+
+        @keyframes headphoneBounce {
+            0%, 100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        .disclaimer-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            filter: drop-shadow(0 2px 10px rgba(255, 107, 157, 0.3));
+        }
+
+        .disclaimer-timer {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: #c44569;
+            font-style: italic;
+            opacity: 0.7;
+            margin-top: 20px;
+        }
+
         /* Початковий екран з конвертом */
         .envelope-screen {
             position: fixed;
@@ -50,7 +150,14 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
             transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .envelope-screen.visible {
+            opacity: 1;
+            visibility: visible;
         }
 
         .envelope-screen.hidden {
@@ -60,7 +167,7 @@
         }
 
         .greeting-text {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Pacifico', cursive;
             font-size: 3.5rem;
             background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 50%, #ffa6c1 100%);
             -webkit-background-clip: text;
@@ -295,14 +402,13 @@
         .sound-notice {
             position: absolute;
             bottom: 18%;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 100px;
+            right: 100px;
             font-size: 1.1rem;
             color: #ffa6c1;
             font-style: italic;
             opacity: 0.8;
             text-align: center;
-            max-width: 90%;
             animation: fadeInScale 1.5s ease-out 0.5s both;
         }
 
@@ -399,13 +505,35 @@
             background: linear-gradient(135deg, #ff6b9d, #ffa6c1, #ffb6c1);
             padding: 4px;
             animation: fadeInScale 2s ease-out;
+            position: relative;
+            aspect-ratio: 4 / 3;
         }
 
         .photo-wrapper img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             width: 100%;
-            height: auto;
-            display: block;
+            height: 100%;
+            object-fit: cover;
             border-radius: 21px;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out, transform 8s ease-in-out;
+        }
+
+        .photo-wrapper img.active {
+            opacity: 1;
+            animation: kenBurns 8s ease-in-out;
+        }
+
+        @keyframes kenBurns {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
         }
 
         .video-wrapper {
@@ -534,7 +662,7 @@
         }
 
         .hero h1 {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Pacifico', cursive;
             font-size: 5rem;
             background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 50%, #ffa6c1 100%);
             -webkit-background-clip: text;
@@ -573,7 +701,7 @@
         }
 
         .section-title {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Pacifico', cursive;
             font-size: 3.5rem;
             background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 50%, #ffa6c1 100%);
             -webkit-background-clip: text;
@@ -648,7 +776,7 @@
         }
 
         .finale h2 {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Pacifico', cursive;
             font-size: 4.5rem;
             background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 50%, #ffa6c1 100%);
             -webkit-background-clip: text;
@@ -709,6 +837,24 @@
 
         /* Адаптивність */
         @media (max-width: 768px) {
+            .disclaimer-content {
+                max-width: 90%;
+                padding: 40px 30px;
+            }
+
+            .disclaimer-icon {
+                font-size: 3.5rem;
+                margin-bottom: 20px;
+            }
+
+            .disclaimer-text {
+                font-size: 1.4rem;
+            }
+
+            .disclaimer-timer {
+                font-size: 1rem;
+            }
+
             .greeting-text {
                 font-size: 2rem;
                 padding: 0 20px;
@@ -814,6 +960,15 @@
     </style>
 </head>
 <body>
+    <!-- Дисклеймер про наушники -->
+    <div class="disclaimer-screen" id="disclaimerScreen">
+        <div class="disclaimer-content">
+            <div class="disclaimer-icon">🎧</div>
+            <div class="disclaimer-text">For a better experience, put on headphones</div>
+            <div class="disclaimer-timer">Starting in <span id="timerSeconds">10</span> seconds...</div>
+        </div>
+    </div>
+
     <!-- Початковий екран з конвертом -->
     <div class="envelope-screen" id="envelopeScreen">
         <h1 class="greeting-text">Для тебе щось особливе...</h1>
@@ -830,14 +985,19 @@
             </div>
             <div class="click-hint">Натисни на конверт</div>
         </div>
-        <div class="sound-notice">Будь ласка, увімкніть звук на ~50% для кращого досвіду</div>
     </div>
 
     <!-- Медіа секція з фото та відео -->
     <div class="media-section" id="mediaSection">
         <div class="media-container">
-            <div class="photo-wrapper">
-                <img src="photo_1.jpg" alt="Special moment">
+            <div class="photo-wrapper" id="photoSlideshow">
+                <img src="photo_1.jpg" alt="Special moment" class="active">
+                <img src="photo_2.JPG" alt="Special moment">
+                <img src="photo_3.JPG" alt="Special moment">
+                <img src="photo_4.jpeg" alt="Special moment">
+                <img src="photo_5.jpg" alt="Special moment">
+                <img src="photo_6.jpeg" alt="Special moment">
+                <img src="photo_7.jpeg" alt="Special moment">
             </div>
             <div class="video-wrapper">
                 <video id="birthdayVideo" controls playsinline>
@@ -913,12 +1073,63 @@
     </div>
 
     <script>
+        // Дисклеймер з таймером
+        const disclaimerScreen = document.getElementById('disclaimerScreen');
+        const timerSeconds = document.getElementById('timerSeconds');
+        let countdown = 10;
+
+        // Оновлення таймера кожну секунду
+        const timerInterval = setInterval(() => {
+            countdown--;
+            timerSeconds.textContent = countdown;
+
+            if (countdown <= 0) {
+                clearInterval(timerInterval);
+            }
+        }, 1000);
+
+        // Приховати дисклеймер і показати конверт через 10 секунд
+        setTimeout(() => {
+            disclaimerScreen.classList.add('hidden');
+            envelopeScreen.classList.add('visible');
+        }, 10000);
+
         const envelopeWrapper = document.getElementById('envelopeWrapper');
         const envelopeScreen = document.getElementById('envelopeScreen');
         const mediaSection = document.getElementById('mediaSection');
         const mainContent = document.getElementById('mainContent');
         const birthdayVideo = document.getElementById('birthdayVideo');
         let isOpening = false;
+
+        // Слайдшоу фотографій
+        const photoSlideshow = document.getElementById('photoSlideshow');
+        const photos = photoSlideshow.querySelectorAll('img');
+        let currentPhotoIndex = 0;
+        const photoDisplayDuration = 4000; // 4 секунди на кожне фото
+        let slideshowInterval = null;
+
+        function showNextPhoto() {
+            // Прибираємо active з поточного фото
+            photos[currentPhotoIndex].classList.remove('active');
+
+            // Переходимо до наступного фото
+            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+
+            // Додаємо active до нового фото
+            photos[currentPhotoIndex].classList.add('active');
+        }
+
+        function startPhotoSlideshow() {
+            // Запускаємо автоматичну зміну фото
+            slideshowInterval = setInterval(showNextPhoto, photoDisplayDuration);
+        }
+
+        function stopPhotoSlideshow() {
+            if (slideshowInterval) {
+                clearInterval(slideshowInterval);
+                slideshowInterval = null;
+            }
+        }
 
         // Тематичні ефекти для кожного моменту пісні (зсув +2 секунди)
         const lyricEffects = [
@@ -1132,6 +1343,9 @@
             setTimeout(() => {
                 envelopeScreen.classList.add('hidden');
                 mediaSection.classList.add('visible');
+
+                // Запускаємо слайдшоу фотографій
+                startPhotoSlideshow();
 
                 // Запускаємо відео автоматично зі звуком
                 setTimeout(() => {
