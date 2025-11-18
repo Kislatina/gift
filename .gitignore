@@ -1,5 +1,3 @@
 .DS_Store
 .npm-cache/
 .claude/
-*.mov
-*.mp4
