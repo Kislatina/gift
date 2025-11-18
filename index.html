@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Особливе Привітання</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe6f0 25%, #fff0f5 50%, #ffe6f0 75%, #ffeef8 100%);
+            background-attachment: fixed;
+            color: #5a3a4a;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Романтичний фоновий узор */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(255, 182, 193, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 218, 224, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 192, 203, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Початковий екран з конвертом */
+        .envelope-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .envelope-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .greeting-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 50%, #ffa6c1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInScale 1.5s ease-out;
+            filter: drop-shadow(0 2px 10px rgba(255, 107, 157, 0.4));
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Конверт */
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            animation: floatEnvelope 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 30px rgba(255, 107, 157, 0.3));
+        }
+
+        @keyframes floatEnvelope {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .envelope {
+            position: relative;
+            width: 350px;
+            height: 230px;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        /* Тіло конверта */
+        .envelope-body {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(180deg, #fff5f8 0%, #ffe6f0 100%);
+            border: 3px solid #ff8fab;
+            border-radius: 0 0 15px 15px;
+            z-index: 3;
+            box-shadow: inset 0 2px 10px rgba(255, 107, 157, 0.1);
+        }
+
+        .envelope-wrapper.opening .envelope-body {
+            z-index: 5;
+        }
+
+        /* Лівий трикутник конверта */
+        .envelope-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 175px solid #ffb6c1;
+            border-top: 80px solid transparent;
+            border-bottom: 80px solid transparent;
+            opacity: 0.6;
+        }
+
+        /* Правий трикутник конверта */
+        .envelope-body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-right: 175px solid #ffc0cb;
+            border-top: 80px solid transparent;
+            border-bottom: 80px solid transparent;
+            opacity: 0.6;
+        }
+
+        /* Клапан конверта */
+        .envelope-flap {
+            position: absolute;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(135deg, #ffb6c1 0%, #ff8fab 50%, #ffa6c1 100%);
+            border: 3px solid #ff8fab;
+            border-bottom: none;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transform-origin: top center;
+            z-index: 4;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+        }
+
+        .envelope-wrapper.opening .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        /* Задній клапан (нижній трикутник) */
+        .envelope-back {
+            position: absolute;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            z-index: 0;
+        }
+
+        .envelope-back::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 175px solid transparent;
+            border-right: 175px solid transparent;
+            border-bottom: 90px solid #fff0f5;
+            border-top: none;
+        }
+
+        /* Декоративна печатка на конверті */
+        .envelope-seal {
+            position: absolute;
+            top: 105px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            border-radius: 50%;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 3px 10px rgba(196, 69, 105, 0.4);
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .envelope-wrapper.opening .envelope-seal {
+            transform: translateX(-50%) translateY(-100px) scale(0);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        /* Лист всередині */
+        .letter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            height: 160px;
+            background: linear-gradient(135deg, #ffffff 0%, #fff0f5 100%);
+            border: 2px solid #ffa6c1;
+            border-radius: 10px;
+            z-index: 2;
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.3);
+        }
+
+        .envelope-wrapper.opening .letter {
+            transform: translate(-50%, -80%);
+            opacity: 1;
+            z-index: 4;
+        }
+
+        /* Серденько на листі */
+        .letter-heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            color: #ff6b9d;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        /* Підказка */
+        .click-hint {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            color: #c44569;
+            font-style: italic;
+            animation: fadeInOut 2s ease-in-out infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Підказка про звук */
+        .sound-notice {
+            position: absolute;
+            bottom: 18%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.1rem;
+            color: #ffa6c1;
+            font-style: italic;
+            opacity: 0.8;
+            text-align: center;
+            max-width: 90%;
+            animation: fadeInScale 1.5s ease-out 0.5s both;
+        }
+
+        /* Підпис автора */
+        .author-signature {
+            text-align: center;
+            font-size: 1.4rem;
+            color: #ff8fab;
+            font-style: italic;
+            opacity: 0.85;
+            margin-top: 15px;
+            animation: fadeInScale 1.5s ease-out 0.8s both;
+            filter: drop-shadow(0 1px 3px rgba(255, 107, 157, 0.3));
+        }
+
+        /* Конфеті */
+        .confetti {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(var(--x-offset)) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes confettiExplode {
+            0% {
+                transform: translate(-50%, -50%) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(
+                    calc(-50% + var(--x-target)),
+                    calc(-50% + var(--y-target))
+                ) scale(1) rotate(var(--rotation));
+                opacity: 0;
+            }
+        }
+
+        /* Медіа секція з фото та відео */
+        .media-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 900;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.5s ease, visibility 1.5s ease;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe6f0 25%, #fff0f5 50%, #ffe6f0 75%, #ffeef8 100%);
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+
+        .media-section.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .media-container {
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .photo-wrapper {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(255, 107, 157, 0.4);
+            border: 4px solid transparent;
+            background: linear-gradient(135deg, #ff6b9d, #ffa6c1, #ffb6c1);
+            padding: 4px;
+            animation: fadeInScale 2s ease-out;
+        }
+
+        .photo-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 21px;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(255, 107, 157, 0.4);
+            border: 4px solid transparent;
+            background: linear-gradient(135deg, #ff6b9d, #ffa6c1, #ffb6c1);
+            padding: 4px;
+            animation: fadeInScale 2s ease-out 0.5s both;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 21px;
+        }
+
+        .continue-hint {
+            margin-top: 30px;
+            font-size: 1.3rem;
+            color: #c44569;
+            font-style: italic;
+            animation: fadeInOut 2s ease-in-out infinite 3s;
+            text-align: center;
+        }
+
+        #testEffects:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 107, 157, 0.6);
+        }
+
+        #testEffects:active {
+            transform: translateY(0);
+        }
+
+        /* Емодзі дощ для відео */
+        .lyric-emoji {
+            position: fixed;
+            font-size: 25px;
+            z-index: 9999;
+            pointer-events: none;
+            animation: emojiRain linear forwards;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        @keyframes emojiRain {
+            0% {
+                transform: translateY(-50px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(calc(100vh + 100px)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes emojiFloat {
+            0% {
+                transform: translateY(-50px) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(0) translateX(0) scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(calc(100vh + 100px)) translateX(var(--drift)) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        @keyframes emojiSparkle {
+            0% {
+                transform: translateY(-50px) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+                transform: translateY(20vh) scale(1.2) rotate(180deg);
+            }
+            100% {
+                transform: translateY(calc(100vh + 100px)) scale(0.5) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Основний контент */
+        .main-content {
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease 1s, visibility 1s ease 1s;
+        }
+
+        .main-content.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+        }
+
+        /* Секція привітання */
+        .hero {
+            background: radial-gradient(circle at center, rgba(255, 182, 193, 0.2) 0%, transparent 70%);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 50%, #ffa6c1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInScale 2s ease-out;
+            filter: drop-shadow(0 2px 10px rgba(255, 107, 157, 0.4));
+        }
+
+        .hero p {
+            font-size: 2rem;
+            color: #c44569;
+            text-align: center;
+            animation: fadeInUp 2s ease-out 0.5s both;
+            max-width: 800px;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Секція з карточками */
+        .cards-section {
+            background: linear-gradient(180deg, transparent 0%, rgba(255, 192, 203, 0.1) 50%, transparent 100%);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 50%, #ffa6c1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInUp 1s ease-out;
+            filter: drop-shadow(0 2px 15px rgba(255, 107, 157, 0.3));
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 240, 245, 0.95) 100%);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.5s ease;
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.2);
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 25px;
+            padding: 3px;
+            background: linear-gradient(135deg, #ff6b9d, #ffa6c1, #ffb6c1);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            z-index: -1;
+        }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 60px rgba(255, 107, 157, 0.35);
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .card p {
+            color: #5a3a4a;
+            font-size: 1.3rem;
+            line-height: 1.8;
+        }
+
+        /* Фінальна секція */
+        .finale {
+            background: radial-gradient(circle at center, rgba(255, 192, 203, 0.3) 0%, transparent 70%);
+        }
+
+        .finale h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 50%, #ffa6c1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 40px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 15px rgba(255, 107, 157, 0.4))
+                        drop-shadow(0 0 25px rgba(255, 107, 157, 0.2));
+            }
+            50% {
+                filter: drop-shadow(0 0 25px rgba(255, 107, 157, 0.6))
+                        drop-shadow(0 0 40px rgba(255, 107, 157, 0.4))
+                        drop-shadow(0 0 60px rgba(255, 107, 157, 0.2));
+            }
+        }
+
+        .message-box {
+            max-width: 700px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 240, 245, 0.98) 100%);
+            border-radius: 35px;
+            padding: 55px;
+            margin: 30px;
+            animation: fadeInScale 2s ease-out 0.5s both;
+            border: 4px solid transparent;
+            background-clip: padding-box;
+            box-shadow: 0 0 60px rgba(255, 107, 157, 0.3);
+            position: relative;
+        }
+
+        .message-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 35px;
+            padding: 4px;
+            background: linear-gradient(135deg, #ff6b9d, #ffa6c1, #ffb6c1);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            z-index: -1;
+        }
+
+        .message-box p {
+            font-size: 1.7rem;
+            color: #5a3a4a;
+            line-height: 2;
+            text-align: center;
+        }
+
+        /* Адаптивність */
+        @media (max-width: 768px) {
+            .greeting-text {
+                font-size: 2rem;
+                padding: 0 20px;
+            }
+
+            .envelope {
+                width: 280px;
+                height: 180px;
+            }
+
+            .envelope-body {
+                height: 120px;
+            }
+
+            .envelope-body::before {
+                border-left: 140px solid #ffb6c1;
+                border-top: 60px solid transparent;
+                border-bottom: 60px solid transparent;
+            }
+
+            .envelope-body::after {
+                border-right: 140px solid #ffc0cb;
+                border-top: 60px solid transparent;
+                border-bottom: 60px solid transparent;
+            }
+
+            .envelope-flap {
+                height: 80px;
+                top: 60px;
+            }
+
+            .envelope-back {
+                top: 60px;
+            }
+
+            .envelope-back::before {
+                border-left: 140px solid transparent;
+                border-right: 140px solid transparent;
+                border-bottom: 70px solid #fff0f5;
+            }
+
+            .envelope-seal {
+                width: 38px;
+                height: 38px;
+                font-size: 24px;
+                top: 85px;
+            }
+
+            .letter {
+                width: 220px;
+                height: 140px;
+            }
+
+            .letter-heart {
+                font-size: 50px;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .finale h2 {
+                font-size: 2.5rem;
+            }
+
+            .media-section {
+                padding: 20px 15px;
+            }
+
+            .media-container {
+                gap: 20px;
+            }
+
+            .photo-wrapper,
+            .video-wrapper {
+                max-width: 100%;
+            }
+
+            .continue-hint {
+                font-size: 1.1rem;
+                margin-top: 20px;
+            }
+
+            .sound-notice {
+                font-size: 0.95rem;
+                bottom: 15%;
+                max-width: 85%;
+            }
+
+            .author-signature {
+                font-size: 1.1rem;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Початковий екран з конвертом -->
+    <div class="envelope-screen" id="envelopeScreen">
+        <h1 class="greeting-text">Для тебе щось особливе...</h1>
+        <div class="author-signature">by Kisliy</div>
+        <div class="envelope-wrapper" id="envelopeWrapper">
+            <div class="envelope">
+                <div class="envelope-back"></div>
+                <div class="envelope-body"></div>
+                <div class="letter">
+                    <div class="letter-heart">💕</div>
+                </div>
+                <div class="envelope-flap"></div>
+                <div class="envelope-seal">💝</div>
+            </div>
+            <div class="click-hint">Натисни на конверт</div>
+        </div>
+        <div class="sound-notice">Будь ласка, увімкніть звук на ~50% для кращого досвіду</div>
+    </div>
+
+    <!-- Медіа секція з фото та відео -->
+    <div class="media-section" id="mediaSection">
+        <div class="media-container">
+            <div class="photo-wrapper">
+                <img src="photo_1.jpg" alt="Special moment">
+            </div>
+            <div class="video-wrapper">
+                <video id="birthdayVideo" controls playsinline>
+                    <source src="Video.mov" type="video/quicktime">
+                    <source src="Video.mov" type="video/mp4">
+                    Ваш браузер не підтримує відео.
+                </video>
+            </div>
+            <p class="continue-hint">Прокрутіть вниз, щоб продовжити...</p>
+            <button id="testEffects" style="margin-top: 20px; padding: 15px 30px; background: linear-gradient(135deg, #ff6b9d, #ffa6c1); border: none; border-radius: 15px; color: white; font-size: 1.2rem; cursor: pointer; font-family: 'Cormorant Garamond', serif; box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4); transition: all 0.3s ease;">
+                🎨 Тест дощику з емодзі
+            </button>
+        </div>
+    </div>
+
+    <!-- Основний контент -->
+    <div class="main-content" id="mainContent">
+        <!-- Секція привітання -->
+        <section class="hero">
+            <h1>З Днем Народження!</h1>
+            <p>Цей день особливий, тому що він твій</p>
+        </section>
+
+        <!-- Секція з карточками -->
+        <section class="cards-section">
+            <h2 class="section-title">Що робить тебе особливою</h2>
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Твоя посмішка</h3>
+                    <p>Вона освітлює навіть найтемніші дні і дарує тепло всім довкола</p>
+                </div>
+                <div class="card">
+                    <h3>Твоя доброта</h3>
+                    <p>Твоє велике серце і турбота роблять світ кращим</p>
+                </div>
+                <div class="card">
+                    <h3>Твоя унікальність</h3>
+                    <p>Немає нікого у світі схожого на тебе, і це прекрасно</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секція побажань -->
+        <section class="cards-section">
+            <h2 class="section-title">Побажання</h2>
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Щастя</h3>
+                    <p>Нехай кожен день буде наповнений радістю і сміхом</p>
+                </div>
+                <div class="card">
+                    <h3>Любові</h3>
+                    <p>Нехай твоє серце завжди буде зігріте любов'ю близьких</p>
+                </div>
+                <div class="card">
+                    <h3>Мрії</h3>
+                    <p>Нехай всі твої бажання і мрії обов'язково збудуться</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Фінальна секція -->
+        <section class="finale">
+            <h2>Будь щасливою!</h2>
+            <div class="message-box">
+                <p>
+                    Нехай цей новий рік твого життя принесе тобі море радості,
+                    океан любові і нескінченне щастя.
+                    Ти заслуговуєш усього найкращого!
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const envelopeWrapper = document.getElementById('envelopeWrapper');
+        const envelopeScreen = document.getElementById('envelopeScreen');
+        const mediaSection = document.getElementById('mediaSection');
+        const mainContent = document.getElementById('mainContent');
+        const birthdayVideo = document.getElementById('birthdayVideo');
+        let isOpening = false;
+
+        // Тематичні ефекти для кожного моменту пісні (зсув +2 секунди)
+        const lyricEffects = [
+            { time: 18, duration: 4, emojis: ['☁️', '💨', '🌫️'], animation: 'emojiFloat' },
+            { time: 23, duration: 4, emojis: ['✨', '💕', '🌟', '💖'], animation: 'emojiSparkle' },
+            { time: 28, duration: 4, emojis: ['🍂', '🍁', '🧡'], animation: 'emojiFloat' },
+            { time: 33, duration: 3, emojis: ['🍂', '🍁', '🌾'], animation: 'emojiRain' },
+            { time: 37, duration: 3, emojis: ['⭐', '✨', '🌟', '💫'], animation: 'emojiSparkle' },
+            { time: 41, duration: 3, emojis: ['👀', '💭', '✨'], animation: 'emojiFloat' },
+            { time: 46, duration: 4, emojis: ['💕', '💖', '💗', '💝'], animation: 'emojiSparkle' },
+            { time: 51, duration: 3, emojis: ['💝', '🌹', '💕'], animation: 'emojiRain' },
+            { time: 55, duration: 4, emojis: ['💖', '💕', '💗', '💘'], animation: 'emojiSparkle' }
+        ];
+
+        let triggeredTimes = new Set();
+        let activeRainIntervals = [];
+
+        // Функція створення одного емодзі
+        function createSingleEmoji(emojis, animation) {
+            const emoji = document.createElement('div');
+            emoji.className = 'lyric-emoji';
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+            // Випадкова позиція
+            emoji.style.left = Math.random() * 100 + '%';
+            emoji.style.top = '-50px';
+
+            // Випадковий розмір
+            const size = Math.random() * 15 + 20;
+            emoji.style.fontSize = size + 'px';
+
+            // Дрейфування для float
+            if (animation === 'emojiFloat') {
+                const drift = (Math.random() - 0.5) * 200;
+                emoji.style.setProperty('--drift', drift + 'px');
+            }
+
+            // Анімація
+            const animDuration = Math.random() * 2 + 3;
+            emoji.style.animationName = animation;
+            emoji.style.animationDuration = animDuration + 's';
+
+            document.body.appendChild(emoji);
+
+            setTimeout(() => emoji.remove(), animDuration * 1000);
+        }
+
+        // Функція створення безперервного дощу
+        function startContinuousRain(emojis, animation, duration) {
+            console.log('🌧️ Starting continuous rain:', emojis, 'for', duration, 'seconds');
+
+            // Створюємо емодзі кожні 300мс
+            const rainInterval = setInterval(() => {
+                createSingleEmoji(emojis, animation);
+            }, 300);
+
+            activeRainIntervals.push(rainInterval);
+
+            // Зупиняємо через duration секунд
+            setTimeout(() => {
+                clearInterval(rainInterval);
+                const index = activeRainIntervals.indexOf(rainInterval);
+                if (index > -1) {
+                    activeRainIntervals.splice(index, 1);
+                }
+                console.log('🛑 Rain stopped');
+            }, duration * 1000);
+        }
+
+        // Відстеження відео
+        let videoCheckInterval = null;
+
+        birthdayVideo.addEventListener('play', () => {
+            console.log('▶️ Video started playing');
+
+            // Перевірка кожні 200мс
+            videoCheckInterval = setInterval(() => {
+                const currentTime = Math.floor(birthdayVideo.currentTime);
+
+                lyricEffects.forEach(effect => {
+                    if (currentTime === effect.time && !triggeredTimes.has(effect.time)) {
+                        console.log('🎵 Triggering at', currentTime, 'seconds');
+                        triggeredTimes.add(effect.time);
+                        startContinuousRain(effect.emojis, effect.animation, effect.duration);
+                    }
+                });
+            }, 200);
+        });
+
+        birthdayVideo.addEventListener('pause', () => {
+            if (videoCheckInterval) {
+                clearInterval(videoCheckInterval);
+                console.log('⏸️ Video paused');
+            }
+            // Зупиняємо всі активні дощі
+            activeRainIntervals.forEach(interval => clearInterval(interval));
+            activeRainIntervals = [];
+        });
+
+        birthdayVideo.addEventListener('seeked', () => {
+            triggeredTimes.clear();
+            // Зупиняємо всі активні дощі
+            activeRainIntervals.forEach(interval => clearInterval(interval));
+            activeRainIntervals = [];
+            console.log('⏩ Video seeked - effects reset');
+        });
+
+        // Тестова кнопка
+        document.getElementById('testEffects').addEventListener('click', () => {
+            console.log('🧪 Manual test triggered');
+            startContinuousRain(['💕', '💖', '✨', '🌟'], 'emojiSparkle', 5);
+        });
+
+        // Створення конфеті з взривним ефектом
+        function createConfetti() {
+            const colors = ['#ff6b9d', '#ff8fab', '#ffa6c1', '#ffb6c1', '#ffc0cb', '#ffe6f0', '#fff0f5'];
+            const confettiCount = 200;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            // Взривний ефект з центру
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+
+                    // Випадкова форма конфеті
+                    const shapes = ['circle', 'square', 'rectangle', 'heart'];
+                    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+
+                    if (shape === 'circle') {
+                        confetti.style.borderRadius = '50%';
+                        confetti.style.width = Math.random() * 10 + 8 + 'px';
+                        confetti.style.height = confetti.style.width;
+                        confetti.style.backgroundColor = color;
+                    } else if (shape === 'square') {
+                        confetti.style.width = Math.random() * 12 + 8 + 'px';
+                        confetti.style.height = confetti.style.width;
+                        confetti.style.backgroundColor = color;
+                        confetti.style.borderRadius = '2px';
+                    } else if (shape === 'rectangle') {
+                        confetti.style.width = Math.random() * 8 + 5 + 'px';
+                        confetti.style.height = Math.random() * 15 + 10 + 'px';
+                        confetti.style.backgroundColor = color;
+                        confetti.style.borderRadius = '2px';
+                    } else if (shape === 'heart') {
+                        confetti.innerHTML = '💕';
+                        confetti.style.fontSize = Math.random() * 10 + 15 + 'px';
+                        confetti.style.width = 'auto';
+                        confetti.style.height = 'auto';
+                    }
+
+                    // Початкова позиція в центрі екрану
+                    confetti.style.left = centerX + 'px';
+                    confetti.style.top = centerY + 'px';
+
+                    // Випадкове направлення взриву
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = Math.random() * 400 + 200;
+                    const xTarget = Math.cos(angle) * velocity;
+                    const yTarget = Math.sin(angle) * velocity - 100; // Трохи вверх
+                    const rotation = Math.random() * 1080 - 540;
+
+                    confetti.style.setProperty('--x-target', xTarget + 'px');
+                    confetti.style.setProperty('--y-target', yTarget + 'px');
+                    confetti.style.setProperty('--rotation', rotation + 'deg');
+
+                    // Анімація взриву, потім падіння
+                    const explodeDuration = 1.2;
+                    confetti.style.animation = `confettiExplode ${explodeDuration}s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
+
+                    document.body.appendChild(confetti);
+
+                    // Після взриву - падіння вниз
+                    setTimeout(() => {
+                        const currentLeft = confetti.getBoundingClientRect().left;
+                        const currentTop = confetti.getBoundingClientRect().top;
+
+                        confetti.style.left = currentLeft + 'px';
+                        confetti.style.top = currentTop + 'px';
+
+                        const xOffset = Math.random() * 200 - 100;
+                        confetti.style.setProperty('--x-offset', xOffset + 'px');
+
+                        const fallDuration = Math.random() * 2 + 2;
+                        confetti.style.animation = `confettiFall ${fallDuration}s linear forwards`;
+
+                        // Видалення після повного падіння
+                        setTimeout(() => confetti.remove(), fallDuration * 1000);
+                    }, explodeDuration * 1000);
+
+                }, i * 8);
+            }
+        }
+
+        // Обробник клацання на конверт
+        envelopeWrapper.addEventListener('click', () => {
+            if (isOpening) return;
+            isOpening = true;
+
+            // Додаємо клас відкриття
+            envelopeWrapper.classList.add('opening');
+
+            // Запускаємо конфеті
+            setTimeout(() => {
+                createConfetti();
+            }, 600);
+
+            // Приховуємо екран з конвертом і показуємо медіа секцію
+            setTimeout(() => {
+                envelopeScreen.classList.add('hidden');
+                mediaSection.classList.add('visible');
+
+                // Запускаємо відео автоматично зі звуком
+                setTimeout(() => {
+                    birthdayVideo.muted = false;
+                    birthdayVideo.play().catch(error => {
+                        console.log('Autoplay prevented:', error);
+                        // Якщо автозапуск заблоковано браузером, відео все одно буде доступне для ручного запуску
+                    });
+                }, 500);
+            }, 2000);
+        });
+
+        // Показати основний контент при прокрутці медіа секції
+        mediaSection.addEventListener('scroll', () => {
+            const scrollPosition = mediaSection.scrollTop + mediaSection.clientHeight;
+            const scrollHeight = mediaSection.scrollHeight;
+
+            // Коли користувач прокрутив до низу медіа секції
+            if (scrollPosition >= scrollHeight - 100) {
+                mediaSection.style.position = 'relative';
+                mediaSection.style.height = 'auto';
+                mainContent.classList.add('visible');
+            }
+        });
+    </script>
+</body>
+</html>
