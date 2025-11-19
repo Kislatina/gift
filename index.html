@@ -474,7 +474,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             z-index: 900;
             opacity: 0;
@@ -568,6 +568,7 @@
             opacity: 0;
             transform: translateY(50px);
             transition: opacity 1.5s ease, transform 1.5s ease;
+            display: none;
         }
 
         .memory-timeline.visible {
@@ -1560,6 +1561,9 @@
             console.log('🎬 Video ended - starting timeline auto-scroll');
 
             // Показуємо timeline
+            memoryTimeline.style.display = 'block';
+            // Force reflow
+            void memoryTimeline.offsetWidth;
             memoryTimeline.classList.add('visible');
 
             // Починаємо автоскрол через 1 секунду після закінчення відео
