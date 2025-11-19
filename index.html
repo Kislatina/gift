@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="uk">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Особливе Привітання</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -93,9 +96,12 @@
         }
 
         @keyframes disclaimerPulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: scale(1) translateZ(0);
             }
+
             50% {
                 transform: scale(1.015) translateZ(0);
             }
@@ -112,9 +118,12 @@
         }
 
         @keyframes headphoneBounce {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translate3d(0, 0, 0) rotate(-5deg);
             }
+
             50% {
                 transform: translate3d(0, -15px, 0) rotate(5deg);
             }
@@ -188,6 +197,7 @@
                 opacity: 0;
                 transform: scale(0.8) translateY(-20px);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1) translateY(0);
@@ -203,9 +213,12 @@
         }
 
         @keyframes floatEnvelope {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0);
             }
+
             50% {
                 transform: translateY(-20px);
             }
@@ -372,9 +385,12 @@
         }
 
         @keyframes pulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translate(-50%, -50%) scale(1);
             }
+
             50% {
                 transform: translate(-50%, -50%) scale(1.1);
             }
@@ -394,9 +410,12 @@
         }
 
         @keyframes fadeInOut {
-            0%, 100% {
+
+            0%,
+            100% {
                 opacity: 0.5;
             }
+
             50% {
                 opacity: 1;
             }
@@ -442,6 +461,7 @@
                 transform: translateY(0) translateX(0) rotate(0deg);
                 opacity: 1;
             }
+
             100% {
                 transform: translateY(100vh) translateX(var(--x-offset)) rotate(720deg);
                 opacity: 0;
@@ -453,14 +473,14 @@
                 transform: translate(-50%, -50%) scale(0) rotate(0deg);
                 opacity: 0;
             }
+
             10% {
                 opacity: 1;
             }
+
             100% {
-                transform: translate(
-                    calc(-50% + var(--x-target)),
-                    calc(-50% + var(--y-target))
-                ) scale(1) rotate(var(--rotation));
+                transform: translate(calc(-50% + var(--x-target)),
+                        calc(-50% + var(--y-target))) scale(1) rotate(var(--rotation));
                 opacity: 0;
             }
         }
@@ -535,6 +555,7 @@
             0% {
                 transform: translate(-50%, -50%) scale(1);
             }
+
             100% {
                 transform: translate(-50%, -50%) scale(1.1);
             }
@@ -734,7 +755,7 @@
             justify-content: center;
             font-size: 1.8rem;
             box-shadow: 0 0 0 8px rgba(255, 240, 245, 1),
-                        0 0 30px rgba(255, 107, 157, 0.4);
+                0 0 30px rgba(255, 107, 157, 0.4);
             z-index: 10;
             transition: transform 0.3s ease;
         }
@@ -771,12 +792,15 @@
                 transform: translateY(-50px) rotate(0deg);
                 opacity: 0;
             }
+
             10% {
                 opacity: 1;
             }
+
             90% {
                 opacity: 1;
             }
+
             100% {
                 transform: translateY(calc(100vh + 100px)) rotate(360deg);
                 opacity: 0;
@@ -788,13 +812,16 @@
                 transform: translateY(-50px) translateX(0) scale(0);
                 opacity: 0;
             }
+
             10% {
                 opacity: 1;
                 transform: translateY(0) translateX(0) scale(1);
             }
+
             90% {
                 opacity: 1;
             }
+
             100% {
                 transform: translateY(calc(100vh + 100px)) translateX(var(--drift)) scale(0.8);
                 opacity: 0;
@@ -806,10 +833,12 @@
                 transform: translateY(-50px) scale(0) rotate(0deg);
                 opacity: 0;
             }
+
             20% {
                 opacity: 1;
                 transform: translateY(20vh) scale(1.2) rotate(180deg);
             }
+
             100% {
                 transform: translateY(calc(100vh + 100px)) scale(0.5) rotate(720deg);
                 opacity: 0;
@@ -872,6 +901,7 @@
                 opacity: 0;
                 transform: translateY(50px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -971,14 +1001,14 @@
         }
 
         @keyframes glow {
-            0%, 100% {
-                filter: drop-shadow(0 0 15px rgba(255, 107, 157, 0.4))
-                        drop-shadow(0 0 25px rgba(255, 107, 157, 0.2));
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 15px rgba(255, 107, 157, 0.4)) drop-shadow(0 0 25px rgba(255, 107, 157, 0.2));
             }
+
             50% {
-                filter: drop-shadow(0 0 25px rgba(255, 107, 157, 0.6))
-                        drop-shadow(0 0 40px rgba(255, 107, 157, 0.4))
-                        drop-shadow(0 0 60px rgba(255, 107, 157, 0.2));
+                filter: drop-shadow(0 0 25px rgba(255, 107, 157, 0.6)) drop-shadow(0 0 40px rgba(255, 107, 157, 0.4)) drop-shadow(0 0 60px rgba(255, 107, 157, 0.2));
             }
         }
 
@@ -1192,7 +1222,7 @@
                 height: 40px;
                 font-size: 1.4rem;
                 box-shadow: 0 0 0 6px rgba(255, 240, 245, 1),
-                            0 0 20px rgba(255, 107, 157, 0.3);
+                    0 0 20px rgba(255, 107, 157, 0.3);
             }
 
             .memory-image {
@@ -1201,6 +1231,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Дисклеймер про наушники -->
     <div class="disclaimer-screen" id="disclaimerScreen">
@@ -1267,7 +1298,8 @@
                             <div class="memory-image">
                                 <img src="first_met.png" alt="Перша зустріч">
                             </div>
-                            <p class="memory-text">День, коли наші шляхи нарешті перетнулися і все змінилося назавжди.</p>
+                            <p class="memory-text">День, коли наші шляхи нарешті перетнулися і все змінилося назавжди.
+                            </p>
                         </div>
                         <div class="timeline-dot"></div>
                     </div>
@@ -1283,7 +1315,8 @@
                             <div class="memory-image">
                                 <img src="first_walk.png" alt="Перша прогулянка">
                             </div>
-                            <p class="memory-text">Години розмов пролітали миттєво, а твоя усмішка освітлювала весь світ.</p>
+                            <p class="memory-text">Години розмов пролітали миттєво, а твоя усмішка освітлювала весь
+                                світ.</p>
                         </div>
                         <div class="timeline-dot"></div>
                     </div>
@@ -1315,7 +1348,8 @@
                             <div class="memory-image">
                                 <img src="start_relationship.png" alt="Святкування">
                             </div>
-                            <p class="memory-text">Ще один рік твого дивовижного світла у цьому світі. І це лише початок!</p>
+                            <p class="memory-text">Ще один рік твого дивовижного світла у цьому світі. І це лише
+                                початок!</p>
                         </div>
                         <div class="timeline-dot"></div>
                     </div>
@@ -1577,15 +1611,34 @@
             if (hasAutoScrolled) return;
             hasAutoScrolled = true;
 
-            // Отримуємо позицію timeline відносно media-section
-            const timelineTop = memoryTimeline.offsetTop;
-            const timelineHeight = memoryTimeline.offsetHeight;
+            // Використовуємо getBoundingClientRect для більш точного розрахунку
+            const timelineRect = memoryTimeline.getBoundingClientRect();
+            const mediaSectionRect = mediaSection.getBoundingClientRect();
+
+            // Поточна прокрутка
+            const startPosition = mediaSection.scrollTop;
+
+            // Позиція таймлайну відносно контейнера (враховуючи поточну прокрутку)
+            const timelineTopRelative = timelineRect.top - mediaSectionRect.top + startPosition;
+            const timelineHeight = timelineRect.height;
+
+            // Цільова позиція: прокрутити так, щоб низ таймлайну був трохи вище низу екрану
+            // або щоб весь таймлайн прокрутився
+            const targetPosition = timelineTopRelative + timelineHeight - mediaSection.clientHeight + 100;
+
+            const distance = targetPosition - startPosition;
+
+            console.log('🚀 Auto-scroll starting:', {
+                start: startPosition,
+                target: targetPosition,
+                distance: distance,
+                timelineTop: timelineTopRelative,
+                timelineHeight: timelineHeight
+            });
 
             // Розраховуємо тривалість скролу (приблизно 6 секунд на картку)
-            const scrollDuration = memoryCards.length * 6000; // мілісекунди
-            const startPosition = mediaSection.scrollTop;
-            const targetPosition = timelineTop + timelineHeight - mediaSection.clientHeight / 2;
-            const distance = targetPosition - startPosition;
+            // Мінімум 10 секунд, максимум 60 секунд
+            const scrollDuration = Math.max(10000, Math.min(memoryCards.length * 6000, 60000));
 
             let startTime = null;
 
@@ -1594,12 +1647,8 @@
                 const elapsed = timestamp - startTime;
                 const progress = Math.min(elapsed / scrollDuration, 1);
 
-                // Easing function для плавного скролу
-                const easeInOutCubic = progress < 0.5
-                    ? 4 * progress * progress * progress
-                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-
-                const currentPosition = startPosition + (distance * easeInOutCubic);
+                // Лінійний скрол (стабільна швидкість)
+                const currentPosition = startPosition + (distance * progress);
                 mediaSection.scrollTop = currentPosition;
 
                 // Анімуємо картки по мірі скролу
@@ -1785,4 +1834,5 @@
         });
     </script>
 </body>
+
 </html>
